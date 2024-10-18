@@ -1,18 +1,13 @@
-# Step 1: Install required dependencies
-!pip install transformers --quiet
-!pip install torch --quiet
-!pip install streamlit --quiet
-
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import streamlit as st
 
-# Step 2: Load the pre-trained conversational model from Hugging Face
+# Load the pre-trained conversational model from Hugging Face
 model_name = "OpenAssistant/oasst-sft-1-pythia-12b"  # You can also use other conversational models
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(model_name)
 
-# Step 3: Function to generate chatbot responses
+# Function to generate chatbot responses
 def generate_response(user_input, chat_history_ids=None):
     # Encode the user input and append to the chat history (if any)
     new_user_input_ids = tokenizer.encode(user_input + tokenizer.eos_token, return_tensors='pt')
@@ -28,7 +23,7 @@ def generate_response(user_input, chat_history_ids=None):
     
     return bot_response, chat_history_ids
 
-# Step 4: Streamlit UI for chatbot interaction
+# Streamlit UI for chatbot interaction
 def main():
     st.title("UK Healthcare Chatbot")
     st.write("Welcome! Ask me anything about healthcare in the UK.")
@@ -57,6 +52,6 @@ def main():
             st.write(f"You: {st.session_state.past_inputs[i]}")
             st.write(f"Bot: {st.session_state.past_responses[i]}")
 
-# Step 5: Run the chatbot interface
+# Run the chatbot interface
 if __name__ == '__main__':
     main()
